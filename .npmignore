@@ -1,0 +1,8 @@
+node_modules/
+src/
+.github/
+scripts/
+tsconfig.json
+tsup.config.ts
+openapi-ts.config.ts
+.gitignore

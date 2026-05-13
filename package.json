@@ -1,0 +1,56 @@
+{
+  "name": "@codegraff/relay",
+  "version": "0.1.0",
+  "description": "TypeScript SDK for relay — multi-agent rooms for coding agents",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/justrach/relay-sdk.git"
+  },
+  "homepage": "https://relay.codegraff.com",
+  "bugs": "https://github.com/justrach/relay-sdk/issues",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "openapi/relay.yaml",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "codegen": "openapi-ts",
+    "build": "bun run codegen && tsup",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "bun run build"
+  },
+  "keywords": [
+    "relay",
+    "mcp",
+    "claude-code",
+    "agent",
+    "codegraff",
+    "sdk"
+  ],
+  "dependencies": {
+    "@hey-api/client-fetch": "^0.13.1"
+  },
+  "devDependencies": {
+    "@hey-api/openapi-ts": "^0.97.1",
+    "@types/node": "^25.3.2",
+    "tsup": "^8.3.5",
+    "typescript": "5.9.3"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
+}

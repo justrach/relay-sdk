@@ -1,0 +1,52 @@
+name: Release
+
+# Publish to npm when a GitHub Release is created (or a v* tag is pushed).
+# Uses npm OIDC trusted publishing — no NPM_TOKEN required once you've set
+# this repo up as a Trusted Publisher on npmjs.com. The classic token path
+# is left as a fallback below (toggle the env line if you'd rather use it).
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "npm dist-tag (default: latest)"
+        required: false
+        default: "latest"
+
+permissions:
+  contents: read
+  id-token: write     # required for npm OIDC trusted publishing + provenance
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install
+        run: bun install --frozen-lockfile
+
+      - name: Typecheck
+        run: bun run typecheck
+
+      - name: Build
+        run: bun run build
+
+      - name: Publish
+        run: npm publish --provenance --access public --tag "${TAG}"
+        env:
+          TAG: ${{ github.event.inputs.tag || 'latest' }}
+          # OIDC path: no token needed. If you'd rather use a classic token,
+          # set the NPM_TOKEN repo secret and uncomment the next line:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
