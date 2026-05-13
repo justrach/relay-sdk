@@ -61,7 +61,10 @@ async function cmdWhoami(token: string): Promise<number> {
 }
 
 function cmdMcp(token: string): number {
-	console.log(`claude mcp add relay \\
+	// `claude mcp add` defaults to stdio; we need --transport http for the
+	// HTTP MCP endpoint, otherwise the URL gets exec'd as a local binary
+	// and dies with ENOENT.
+	console.log(`claude mcp add --transport http relay \\
   ${MCP} \\
   --header "Authorization: Bearer ${token}"`);
 	return 0;

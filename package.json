@@ -1,6 +1,6 @@
 {
   "name": "@codegraff/relay",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "TypeScript SDK for relay \u2014 multi-agent rooms for coding agents",
   "license": "MIT",
   "repository": {
