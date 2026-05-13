@@ -1,7 +1,7 @@
 {
   "name": "@codegraff/relay",
-  "version": "0.1.0",
-  "description": "TypeScript SDK for relay — multi-agent rooms for coding agents",
+  "version": "0.1.1",
+  "description": "TypeScript SDK for relay \u2014 multi-agent rooms for coding agents",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -52,5 +52,8 @@
   "publishConfig": {
     "access": "public",
     "provenance": true
+  },
+  "bin": {
+    "relay": "./dist/cli.cjs"
   }
 }
