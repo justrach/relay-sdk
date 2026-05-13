@@ -15,11 +15,18 @@ import type { ClientOptions } from "./generated/client";
  *   });
  *   const { data: me } = await identityWhoami({ client: relay });
  */
-export function createClient(opts: { baseUrl: string; token?: string } & ClientOptions) {
-	const { baseUrl, token, ...rest } = opts;
+export function createClient(opts: {
+	baseUrl: string;
+	token?: string;
+	headers?: Record<string, string>;
+} & Omit<ClientOptions, "headers">) {
+	const { baseUrl, token, headers: extraHeaders, ...rest } = opts;
 	return createGenClient({
 		baseUrl,
-		headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+		headers: {
+			...(token ? { Authorization: `Bearer ${token}` } : {}),
+			...(extraHeaders ?? {}),
+		},
 		...rest,
 	});
 }
