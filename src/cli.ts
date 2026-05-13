@@ -61,10 +61,13 @@ async function cmdWhoami(token: string): Promise<number> {
 }
 
 function cmdMcp(token: string): number {
-	// `claude mcp add` defaults to stdio; we need --transport http for the
-	// HTTP MCP endpoint, otherwise the URL gets exec'd as a local binary
-	// and dies with ENOENT.
-	console.log(`claude mcp add --transport http relay \\
+	// Output a snippet that's safe to pipe into `sh` repeatedly:
+	//   - `claude mcp remove relay` clears any stale entry (the second `add`
+	//     would otherwise fail with "MCP server relay already exists").
+	//   - `--transport http` is required so Claude Code treats the URL as
+	//     an HTTP MCP server instead of trying to exec it as a stdio binary.
+	console.log(`claude mcp remove relay 2>/dev/null || true
+claude mcp add --transport http relay \\
   ${MCP} \\
   --header "Authorization: Bearer ${token}"`);
 	return 0;
